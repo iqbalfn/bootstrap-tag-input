@@ -293,17 +293,16 @@
 
       this._input.value = JSON.stringify(this._values);
 
-      this._addListItem(text, index);
+      this._addListItem(text);
     };
 
-    _proto._addListItem = function _addListItem(text, i) {
+    _proto._addListItem = function _addListItem(text) {
       var li = document.createElement('li');
       li.innerText = text;
       var btn = document.createElement('button');
       btn.setAttribute('type', 'button');
       btn.setAttribute('aria-label', 'Delete');
       btn.setAttribute('data-dismiss', 'tag-item');
-      btn.setAttribute('data-index', i);
       btn.classList.add('close');
       var span = document.createElement('span');
       span.setAttribute('aria-hidden', 'true');
@@ -359,7 +358,9 @@
       var _this3 = this;
 
       $(this._items).on(Event.CLICK_ITEM_DISMISS, Selector.DISMISS_ITEM, function (e) {
-        _this3._removeItem(parseInt(e.currentTarget.dataset.index));
+        var index = $(_this3._items).children('li').index(e.currentTarget.parentNode);
+
+        _this3._removeItem(index);
       });
     };
 
@@ -375,7 +376,7 @@
       if (!Array.isArray(this._values)) this._values = [];
 
       for (var i = 0; i < this._values.length; i++) {
-        this._addListItem(this._values[i], i);
+        this._addListItem(this._values[i]);
       }
     } // Static
     ;

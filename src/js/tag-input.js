@@ -96,10 +96,10 @@ class TagInput {
         this._values.push( text )
         this._input.value = JSON.stringify(this._values)
 
-        this._addListItem(text, index)
+        this._addListItem(text)
     }
 
-    _addListItem(text, i){
+    _addListItem(text){
         let li = document.createElement('li')
         li.innerText = text
 
@@ -107,7 +107,6 @@ class TagInput {
         btn.setAttribute('type', 'button')
         btn.setAttribute('aria-label', 'Delete')
         btn.setAttribute('data-dismiss', 'tag-item')
-        btn.setAttribute('data-index', i)
 
         btn.classList.add('close')
 
@@ -155,7 +154,8 @@ class TagInput {
 
     _setItemsListener(){
         $(this._items).on(Event.CLICK_ITEM_DISMISS, Selector.DISMISS_ITEM, e => {
-            this._removeItem( parseInt( e.currentTarget.dataset.index ) )
+            let index = $(this._items).children('li').index(e.currentTarget.parentNode)
+            this._removeItem(index)
         })
     }
 
@@ -170,7 +170,7 @@ class TagInput {
             this._values = [];
 
         for(let i=0; i<this._values.length; i++)
-            this._addListItem(this._values[i], i)
+            this._addListItem(this._values[i])
     }
 
     // Static
